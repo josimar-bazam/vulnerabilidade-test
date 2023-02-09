@@ -1,0 +1,27 @@
+name: CI
+on:
+ push:
+   branches: [ main ]
+ pull_request:
+   branches: [ main ]
+
+jobs:
+ conviso-cr:
+   runs-on: ubuntu-latest
+   container:
+     image: convisoappsec/flowcli
+     env:
+       FLOW_API_KEY:  ${{secrets.CONVISO_API_KEY}}
+       FLOW_PROJECT_CODE: "<project code>"
+   steps:
+    - uses: actions/checkout@v3
+
+    - name: codereview
+      #Please use only one of the following approaches in the same job
+
+      #Using Tags, ordered by time
+      run: conviso deploy create with tag-tracker sort-by time
+      #Using Tags, ordered by versioning style (semantic version)
+      run: conviso deploy create with tag-tracker sort-by versioning-style
+      #Without using Tags, ordered by Git tree
+      run: conviso deploy create with values
