@@ -1,0 +1,19 @@
+name: CI
+on:
+ push:
+   branches: [ main ]
+ pull_request:
+   branches: [ main ]
+
+jobs:
+ conviso-ast:
+   runs-on: ubuntu-latest
+   container:
+     image: convisoappsec/convisocli
+     env:
+       FLOW_API_KEY:  znkw8gMKz_wGGDt0bOqIOrrn1LlrH2WmfOlx-2PoBGo
+   steps:
+   - uses: actions/checkout@v3
+
+   - name: Run AST
+     run: conviso ast run
